@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ 	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+
+<mapper namespace="com.ezen.board.mapper.boardMapper">
+
+	<select id="listBoard" parameterType="java.util.Map" resultType="boardDTO">
+		select * from (select rownum rn, A.* from 
+			(select * from filespring order by re_step asc)A) 
+				where rn between #{start} and #{end}
+	</select>
+	
+	<insert id="insertBoard" parameterType="boardDTO">
+		insert into filespring values(file_seq.nextval, #{writer},#{email},#{subject},
+							#{passwd},sysdate,0,#{content},#{ip},#{filename}, #{re_step},#{re_level})
+	</insert>
+	
+	<update id="plusRe_step" parameterType="java.util.Map">
+		${sql}
+	</update>
+	
+	<update id="plusReadcount" parameterType="int">
+		update filespring set readcount = readcount + 1 where num = #{num}
+	</update>
+	
+	<select id="getBoard" parameterType="int" resultType="boardDTO">
+		select * from filespring where num = #{num}
+	</select>
+	
+	<delete id="deleteBoard" parameterType="int">
+		delete from filespring where num = #{num}
+	</delete>
+	
+	<update id="updateBoard" parameterType="boardDTO">
+		update filespring set subject=#{subject}, email=#{email}, content=#{content}, filename=#{filename} where num = #{num}
+	</update>
+	
+	<select id="getCount" resultType="Integer">
+		select count(*) from filespring
+	</select>
+</mapper> 	
+
+
+
+
