@@ -87,25 +87,27 @@ public class HomeController {
 	@RequestMapping(value="/write.do", method=RequestMethod.POST)
 	public String write(HttpServletRequest req,
 			@ModelAttribute BoardDTO dto, BindingResult result) {
-		System.out.println("dto.num="+dto.getNum());
-		System.out.println("dto.Re_step()="+dto.getRe_step());
-		System.out.println("dto.Re_level="+dto.getRe_level());
+		System.out.println(dto.getFilename());
 		if(result.hasErrors()) {
-			if(dto.getNum()==0) {
-			dto.setNum(0);
-			dto.setRe_step(0);
-			dto.setRe_level(0);
-			}else if(dto.getNum()!=0 && dto.getFilename()=="") {
-				dto.setFilename(null);
+			if (dto.getNum() == 0) {
+			    dto.setNum(0);
+			    dto.setRe_step(0);
+			    dto.setRe_level(0);
+			    if (dto.getFilename() == null || dto.getFilename().isEmpty()) {
+			        dto.setFilename("NULL");
+			    }
+			} else if (dto.getNum() != 0 && (dto.getFilename() == null || dto.getFilename().isEmpty())) {
+			    dto.setFilename("NULL");
 			}
 		}
 		System.out.println("dto.num="+dto.getNum());
 		System.out.println("dto.Re_step()="+dto.getRe_step());
 		System.out.println("dto.Re_level="+dto.getRe_level());
+
 		MultipartHttpServletRequest mr = (MultipartHttpServletRequest)req;
 		MultipartFile file = mr.getFile("filename");
 		HttpSession session = req.getSession();
-		String upPath = session.getServletContext().getRealPath("/resources/img");
+		String upPath = session.getServletContext().getRealPath("/resources/img/");
 		File target = new File(upPath, file.getOriginalFilename());
 		try {
 			file.transferTo(target);
@@ -115,6 +117,10 @@ public class HomeController {
 		String fname= file.getOriginalFilename();
 		dto.setFilename(fname);
 		dto.setIp(req.getRemoteAddr());
+		System.out.println("dto.fileName="+dto.getFilename());
+		if(dto.getFilename().equals("")) {
+			dto.setFilename("forbidden.png");
+		}
 		int res=boardMapper.insertBoard(dto);
 		if(res>0) {
 			req.setAttribute("msg", "게시글 등록 성공!! 게시글 목록 페이지로 이동합니다.");
@@ -130,8 +136,9 @@ public class HomeController {
 	public String content_board(HttpServletRequest req, @RequestParam int num) {
 		HttpSession session = req.getSession();
 		BoardDTO dto = boardMapper.getBoard(num,"content");
+		String upPath = (String) session.getAttribute("upPath");
 		req.setAttribute("content", dto);
-		req.setAttribute("upPath", session.getAttribute("upPath"));
+		req.setAttribute("upPath", upPath);
 		return "board/content";
 	}
 	

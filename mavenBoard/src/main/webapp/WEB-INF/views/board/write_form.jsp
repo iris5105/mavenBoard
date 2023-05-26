@@ -4,7 +4,7 @@
 <html>
 <head>
 	<title>±Û¾²±â</title>
-	<link rel="stylesheet" type="text/css" href="style.css">
+	<link rel="stylesheet" type="text/css" href="resources/css/style.css">
 	<script type="text/javascript">
 		function checkBoard(){
 			if (f.writer.value==""){

@@ -1,9 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!-- content.jsp -->
 <html>
 <head>
-	<link rel="stylesheet" type="text/css" href="style.css">
+	<link rel="stylesheet" type="text/css" href="resources/css/style.css">
 	<title>글상세보기</title>
 </head>
 <body>
@@ -24,17 +25,27 @@
 		</tr>
 		<tr>
 			<th bgcolor="yellow" width="20%">글제목</th>
-			<td width="80%" colspan="3">${content.subject}</td>
+			<td width="80%" colspan="3" align="center">${content.subject}</td>
 		</tr>
 		<tr>
 			<th bgcolor="yellow" width="20%">글내용</th>
 			<td width="80%" colspan="3">${content.content}</td>
 		</tr>
 		<tr>
-				<th>첨부파일</th>
+				<th bgcolor="yellow">첨부파일</th>
+				
+				
 				<td>
-				<img src="resources/img/${content.filename }" width="200px">
+				<c:choose>
+					<c:when test="${content.filename eq 'forbidden.png' }">
+						<img src="resources/img/${content.filename }" width="50px">
+					</c:when>
+					<c:otherwise>
+					<img src="resources/img/${content.filename }" width="200px">
+					</c:otherwise>
+				</c:choose>
 				</td>
+				
 		</tr>
 		<tr bgcolor="yellow">
 			<td colspan="4" align="right">
@@ -45,6 +56,15 @@
 			</td>
 		</tr>
 	</table>
+	<form name="r" action="reply.do" >
+		<table border="1" bgcolor="#9595f9">
+			<theader>
+			<tr>
+				<td>댓글</td>
+			</tr>
+			</theader>
+		</table>
+	</form>
 </div>
 </body>
 </html>

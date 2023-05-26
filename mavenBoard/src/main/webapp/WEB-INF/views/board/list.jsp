@@ -30,7 +30,7 @@
 		</tr>
 	<c:if test="${empty listBoard}">
 		<tr>
-			<td colspan="6">등록된 게시글이 없습니다.</td>
+			<td colspan="7" align="center">등록된 게시글이 없습니다.</td>
 		</tr>
 	</c:if>	
 	<c:set var="num" value="${requestScope.num}"/>
@@ -57,12 +57,14 @@
 			<td>[${dto.readcount}]</td>
 			<td>${dto.ip}</td>
 			<td>
-				<c:if test="${empty dto.filename }">
-					X
-				</c:if>
-				<c:if test="${not empty dto.filename }">
-					O
-				</c:if>
+				<c:choose>
+					<c:when test="${'forbidden.png' eq dto.filename }">
+						X
+					</c:when>
+					<c:otherwise>
+						O
+					</c:otherwise>
+				</c:choose>
 		</tr>
 	</c:forEach>
 	</table>
