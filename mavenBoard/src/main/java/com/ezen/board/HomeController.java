@@ -153,7 +153,7 @@ public class HomeController {
 		MultipartHttpServletRequest mr = (MultipartHttpServletRequest)req;
 		MultipartFile file = mr.getFile("filename");
 		HttpSession session = req.getSession();
-		String upPath = session.getServletContext().getRealPath("/resources/img");
+		String upPath = session.getServletContext().getRealPath("/resources/img/");
 		File target = new File(upPath, file.getOriginalFilename());
 		try {
 			file.transferTo(target);

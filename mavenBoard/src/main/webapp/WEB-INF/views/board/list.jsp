@@ -41,13 +41,24 @@
 				<c:set var="num" value="${num-1}"/>
 			</td>
 			<td>
-				<a href="content_board.do?num=${dto.num}">
-					<c:if test="${dto.re_level>0}">
-						<img src="resources/img/level.gif" width="${dto.re_level*10}">
-						<img src="resources/img/re.gif">
-					</c:if>	
-					${dto.subject}
-				</a>
+				<c:choose>
+					<c:when test="${'deleted' eq dto.filename }">
+						<c:if test="${dto.re_level>0}">
+							<img src="resources/img/level.gif" width="${dto.re_level*10}">
+							<img src="resources/img/re.gif">
+						</c:if>	
+						${dto.subject}
+					</c:when>
+					<c:otherwise>
+						<a href="content_board.do?num=${dto.num}">
+							<c:if test="${dto.re_level>0}">
+								<img src="resources/img/level.gif" width="${dto.re_level*10}">
+								<img src="resources/img/re.gif">
+							</c:if>	
+							${dto.subject}
+						</a>
+					</c:otherwise>
+				</c:choose>
 				<c:if test="${dto.readcount>10}">
 					<img src="resources/img/hot.gif">
 				</c:if>	
@@ -59,6 +70,9 @@
 			<td>
 				<c:choose>
 					<c:when test="${'forbidden.png' eq dto.filename }">
+						X
+					</c:when>
+					<c:when test="${'deleted' eq dto.filename }">
 						X
 					</c:when>
 					<c:otherwise>

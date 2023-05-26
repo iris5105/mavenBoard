@@ -17,6 +17,11 @@
 				f.subject.focus()
 				return false
 			}
+			if (f.email.value==""){
+				alert("이메일을 입력해 주세요!!")
+				f.email.focus()
+				return false
+			}
 			if (f.content.value==""){
 				alert("내용을 입력해 주세요!!")
 				f.content.focus()
@@ -69,7 +74,7 @@
 				<td colspan="2" align="center">
 					<input type="submit" value="글쓰기">
 					<input type="reset" value="다시작성">
-					<input type="button" value="목록보기" onclick="window.location='list_board.do'">
+					<input type="button" value="목록보기" onclick="window.location='board_list.do'">
 				</td>
 			</tr>
 		</table>

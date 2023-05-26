@@ -46,13 +46,38 @@ public class BoardMapper {
 			return sqlSession.selectOne("getBoard", num);
 			
 			
-	}	
+	}
+	
+	
+	//Re_Step으로Re_level 가져오기
+	public int getBoard(int num) {
+		return sqlSession.selectOne("getBoard_d",num);
+		
+	}
+	
+	public int detDBoard(int re_step) {
+		return sqlSession.selectOne("getDBoard",re_step);
+	}
 	
 	public int deleteBoard(int num, String passwd) {
 		
 		BoardDTO dto = getBoard(num, "password");
 		if (dto.getPasswd().equals(passwd)) {
-			return sqlSession.delete("deleteBoard", num);
+			int d_level = dto.getRe_level();
+			int n_level = getBoard(dto.getRe_step()+1);
+			System.out.println(n_level);
+			if(n_level == d_level+1) {
+				sqlSession.update("deleteBoard_d", num);
+			}else if(n_level ==0 && d_level!=0 ){
+				int d_step = dto.getRe_step();
+				for(int i=d_level;i>=0; i--) {
+					int d_num = getBoard(d_step);
+					sqlSession.delete("deleteBoard", d_num);
+					d_step--;
+				}
+				sqlSession.delete("deleteBoard", num);
+			}
+			return 1;
 		}else {
 			return -1;
 		}
