@@ -57,15 +57,7 @@
 			</td>
 		</tr>
 	</table>
-	<form name="r" action="reply.do" >
-		<table border="1" bgcolor="#9595f9">
-			<theader>
-			<tr>
-				<td>´ñ±Û</td>
-			</tr>
-			</theader>
-		</table>
-	</form>
+	<hr>
 </div>
 </body>
 </html>
