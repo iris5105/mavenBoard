@@ -150,7 +150,6 @@ public class BoardMapper {
 				}else{
 					return sqlSession.update("deleteBoard_d",num);
 				}
-				
 			}
 		}
 		return -1;

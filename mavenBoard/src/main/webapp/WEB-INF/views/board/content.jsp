@@ -34,17 +34,18 @@
 		<tr>
 				<th bgcolor="yellow">Ã·ºÎÆÄÀÏ</th>
 				
-				
-				<td>
 				<c:choose>
-					<c:when test="${content.filename eq 'forbidden.png' }">
-						<img src="resources/img/${content.filename }" width="50px">
+ 					<c:when test="${content.filename eq 'forbidden.png'}">
+					</c:when>
+					<c:when test="${content.filename eq 'null'}">
 					</c:when>
 					<c:otherwise>
-					<img src="resources/img/${content.filename }" width="200px">
+					<td>
+					<img src="resources/img/${content.filename}" width="200px">
+					</td>
 					</c:otherwise>
 				</c:choose>
-				</td>
+				
 				
 		</tr>
 		<tr bgcolor="yellow">
