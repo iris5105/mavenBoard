@@ -65,60 +65,6 @@ public class BoardMapper {
 		return sqlSession.selectOne("getRBoard",re_step);
 	}
 	
-//	public int deleteBoard(int num, String passwd) {
-//		BoardDTO dto = getBoard(num, "password");
-//		if (dto.getPasswd().equals(passwd)) {
-//			int d_level = dto.getRe_level();
-//			BoardDTO dto2 = getRBoard(dto.getRE_step()+1);
-//			int n_level = (dto2==null)? 0:dto2.getRe_level();
-//			if(n_level == d_level+1 ) {
-//				sqlSession.update("deleteBoard_d", num);
-//			}else if(n_level ==0 && d_level!=0 ){
-//				int d_step = dto.getRe_step();
-//				for(int i=d_level;i>=0; i--) {
-//					System.out.println("d_step="+d_step);
-//					int d_num = setDBoard(d_step);
-//					sqlSession.delete("deleteBoard", d_num);
-//					d_step--;
-//				}
-//				sqlSession.delete("deleteBoard", num);
-//			}
-//			return 1;
-//		}else {
-//			return -1;
-//		}
-//	}
-	
-//	public int deleteBoard(int num, String passwd) {
-//	    BoardDTO dto = getBoard(num, "password");
-//	    if (dto.getPasswd().equals(passwd)) {
-//	        int d_level = dto.getRe_level();
-//	        int n_level = getBoard(dto.getRe_step() + 1);
-//	        System.out.println("n_level=" + n_level);
-//	        if (n_level == d_level + 1) {
-//	            sqlSession.update("deleteBoard_d", num);
-//	        } else if (n_level == 0 && d_level != 0) {
-//	            int d_step = dto.getRe_step();
-//	            while (n_level == 0 && d_level != 0) {
-//	                int d_num = getDBoard(d_step);
-//	                BoardDTO ddto = sqlSession.selectOne("getBoard", d_num);
-//	                String filename = ddto.getFilename();
-//	                if (filename.equals("deleted")) {
-//	                    sqlSession.delete("deleteBoard", d_num);
-//	                } else {
-//	                    break;
-//	                }
-//	                d_step--;
-//	                d_level--;
-//	                n_level = getBoard(d_step - 1);
-//	            }
-//	            sqlSession.delete("deleteBoard", num);
-//	        }
-//	        return 1;
-//	    } else {
-//	        return -1;
-//	    }
-//	}
 	public int deleteBoard(int num,String passwd) {
 		BoardDTO dto = getBoard(num,"delete");
 		if(passwd.equals(dto.getPasswd())) {		//passwd일치 여부
@@ -136,8 +82,6 @@ public class BoardMapper {
 			
 			//마지막 답글을 삭제할 경우
 			else if(NRe_level==0 || dto2==null) {
-/*				ArrayList<Integer> d_list = new ArrayList<Integer>();
-				int co=0;*/
 				while(true) {
 					DRe_step --;
 					co++;
@@ -165,10 +109,11 @@ public class BoardMapper {
 			}
 			
 			else { //중간 답글을 삭제할 경우
+				int DoRe_step = DRe_step;
 				while(true) {
-					DRe_step --;
+					DoRe_step --;
 					co++;
-					BoardDTO dto3 = getRBoard(DRe_step);
+					BoardDTO dto3 = getRBoard(DoRe_step);
 					if(dto3==null) {
 						break;
 					}
