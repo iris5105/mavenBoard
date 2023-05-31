@@ -2,6 +2,8 @@ package com.ezen.board;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.List;
@@ -86,7 +88,7 @@ public class HomeController {
 	}
 	@RequestMapping(value="/write.do", method=RequestMethod.POST)
 	public String write(HttpServletRequest req,
-			@ModelAttribute BoardDTO dto, BindingResult result) {
+			@ModelAttribute BoardDTO dto, BindingResult result){
 		System.out.println(dto.getFilename());
 		if(result.hasErrors()) {
 			if (dto.getNum() == 0) {
@@ -116,8 +118,15 @@ public class HomeController {
 		}
 		String fname= file.getOriginalFilename();
 		dto.setFilename(fname);
-		dto.setIp(req.getRemoteAddr());
-		System.out.println("dto.fileName="+dto.getFilename());
+		String ipAddr;
+		try {
+			  ipAddr = InetAddress.getLocalHost().getHostAddress();
+			  dto.setIp(ipAddr);
+		} catch (UnknownHostException e) {
+
+			e.printStackTrace();
+		}
+
 		if(dto.getFilename().equals("")) {
 			dto.setFilename("forbidden.png");
 		}

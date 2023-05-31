@@ -40,12 +40,17 @@
 		select count(*) from filespring
 	</select>
 	
-	<select id="getBoard_d" parameterType="Integer" resultType="Integer">
-		select re_level from filespring where re_step=#{num}
-	</select>
 	<update id="deleteBoard_d" parameterType="Integer">
 		UPDATE FILESPRING SET WRITER='', EMAIL='', SUBJECT='삭제된 게시글입니다', PASSWD='', REG_DATE='', READCOUNT=0, CONTENT='', IP='', FILENAME='deleted' where num=#{num}
 	</update>
+	
+	<select id="getBoard_d" parameterType="Integer" resultType="Integer">
+		select coalesce(re_level,0) from filespring where re_step=#{num}
+	</select>
+	
+	<select id="getRBoard" parameterType="Integer" resultType="BoardDTO">
+	select * from filespring where re_step=#{num}
+	</select>
 </mapper> 	
 
 
